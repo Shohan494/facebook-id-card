@@ -3,7 +3,7 @@
 session_start();
  
 // Include the required dependencies.
-require_once( 'vendor/autoload.php' );
+require_once( 'fb_sdk/vendor/autoload.php' );
 require 'intervention/vendor/autoload.php';
 use Intervention\Image\ImageManagerStatic as Image;
 
