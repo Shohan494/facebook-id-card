@@ -121,7 +121,7 @@ Image::configure(array('driver' => 'gd'));
 // and you are ready to go ...
 //capturing the image
 $frame = Image::make('id.jpg');
-$pp = Image::make('pp.jpg');
+$pp = Image::make('https://graph.facebook.com/' . $profile['id'] . '/picture?type=large');
 
 
 //edited the image
