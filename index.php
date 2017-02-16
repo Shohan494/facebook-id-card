@@ -3,6 +3,8 @@
 session_start();
  
 // Include the required dependencies.
+//app url
+$url = 'http://localhost';
 require_once( 'fb_sdk/vendor/autoload.php' );
 require 'intervention/vendor/autoload.php';
 use Intervention\Image\ImageManagerStatic as Image;
@@ -221,7 +223,7 @@ $pp->destroy();
   	// Now you can redirect to another page and use the access token from $_SESSION['facebook_access_token']
 } else {
 	// replace your website URL same as added in the developers.facebook.com/apps e.g. if you used http instead of https and you used non-www version or www version of your website then you must add the same here
-	$loginUrl = $helper->getLoginUrl('http://localhost', $permissions);
+	$loginUrl = $helper->getLoginUrl($url, $permissions);
 	echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
 }
 
