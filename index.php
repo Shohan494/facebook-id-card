@@ -13,14 +13,14 @@ use Intervention\Image\ImageManagerStatic as Image;
 $fb = new Facebook\Facebook([
   'app_id'                => '1894453310791272',
   'app_secret'            => '2afede5ba2ad2478224f90d759933be5',
-  'default_graph_version' => 'v2.3',
+  'default_graph_version' => 'v2.8',
 ]);
 
 
 
 $helper = $fb->getRedirectLoginHelper();
 
-$permissions = ['email']; // optional
+$permissions = ['email','user_birthday','user_location']; // optional
 	
 try {
 	if (isset($_SESSION['facebook_access_token'])) {
@@ -65,7 +65,7 @@ if (isset($accessToken)) {
 
 	// getting basic info about user
 	try {
-		$profile_request = $fb->get('/me?fields=id,name,first_name,last_name,email,gender,location');
+		$profile_request = $fb->get('/me?fields=id,name,first_name,last_name,email,gender,birthday,location');
 		$profile = $profile_request->getGraphNode()->asArray();
 	} catch(Facebook\Exceptions\FacebookResponseException $e) {
 		// When Graph returns an error
@@ -80,6 +80,8 @@ if (isset($accessToken)) {
 		exit;
 	}
 	
+
+/*
 	// printing $profile array on the screen which holds the basic info about user
 	print_r($profile);
 	echo '<img src="https://graph.facebook.com/' . $profile['id'] . '/picture?type=large"/> <br/>';
@@ -96,6 +98,8 @@ if (isset($accessToken)) {
 	
 	// include composer autoload
 //require 'intervention/vendor/autoload.php';
+
+*/
 
 // import the Intervention Image Manager Class
 //use Intervention\Image\ImageManagerStatic as Image;
@@ -132,7 +136,7 @@ $frame->insert($pp, 'top-left', 558, 56);
 
 //Name to image
 $frame->text($profile['name'], 35, 145, function($font) {
-    $font->file('font.ttf');
+    $font->file('/var/www/html/font.ttf');
     $font->size(24);
     $font->color('#5E5653');
     $font->align('top-left');
@@ -143,8 +147,8 @@ $frame->text($profile['name'], 35, 145, function($font) {
 
 
 //Gender to image
-$frame->text($profile['gender'], 35, 207, function($font) {
-    $font->file('font.ttf');
+$frame->text(ucfirst($profile['gender']), 35, 207, function($font) {
+    $font->file('/var/www/html/font.ttf');
     $font->size(24);
     $font->color('#5E5653');
     $font->align('top-left');
@@ -153,9 +157,9 @@ $frame->text($profile['gender'], 35, 207, function($font) {
 });
 
 
-//Birth Day to image
-$frame->text($profile['date'], 35, 280, function($font) {
-    $font->file('font.ttf');
+//BirthDay to image
+$frame->text($profile['birthday']->format('d M,Y'), 35, 280, function($font) {
+    $font->file('/var/www/html/font.ttf');
     $font->size(24);
     $font->color('#5E5653');
     $font->align('top-left');
@@ -167,7 +171,7 @@ $frame->text($profile['date'], 35, 280, function($font) {
 
 //Personality to image
 $frame->text('Popular,Sensitive', 35, 345, function($font) {
-    $font->file('font.ttf');
+    $font->file('/var/www/html/font.ttf');
     $font->size(24);
     $font->color('#5E5653');
     $font->align('top-left');
@@ -178,8 +182,8 @@ $frame->text('Popular,Sensitive', 35, 345, function($font) {
 
 
 //Location to image
-$frame->text($profile['location'], 338, 280, function($font) {
-    $font->file('font.ttf');
+$frame->text($profile['location']['name'], 338, 280, function($font) {
+    $font->file('/var/www/html/font.ttf');
     $font->size(24);
     $font->color('#5E5653');
     $font->align('top-left');
@@ -191,7 +195,7 @@ $frame->text($profile['location'], 338, 280, function($font) {
 
 //Personality to image
 $frame->text($profile['id'], 338, 345, function($font) {
-    $font->file('font.ttf');
+    $font->file('/var/www/html/font.ttf');
     $font->size(18);
     $font->color('#5E5653');
     $font->align('top-left');
